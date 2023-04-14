@@ -2,7 +2,7 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 
-import { default as userRoutes } from './routes/user';
+import { userRoutes } from './routes';
 
 export class Server {
 
@@ -13,13 +13,11 @@ export class Server {
     }
 
     constructor() {
-        
         this.app = express();
         this.port = process.env.PORT || '8080';
 
         this.middlewares();
         this.routes();
-
     }
 
     private middlewares() {
