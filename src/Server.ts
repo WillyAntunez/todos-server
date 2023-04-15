@@ -2,14 +2,14 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 
-import { userRoutes } from './routes';
+import { authRoutes } from './routes';
 
 export class Server {
 
     private app:Application;
     private port:string;
     private apiPaths = {
-        users: '/api/users',
+        auth: '/auth/',
     }
 
     constructor() {
@@ -29,7 +29,7 @@ export class Server {
     }
 
     private routes() {
-        this.app.use(this.apiPaths.users, userRoutes)
+        this.app.use(this.apiPaths.auth, authRoutes)
     }
 
     public listen() {

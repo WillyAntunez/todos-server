@@ -4,6 +4,7 @@ export interface IUser {
     password: string;
     state: UserStates;
     role: UserRoles;
+    _id: string;
 }
 
 export type UserStates = 'DELETED' | 'ACTIVE';

@@ -1,33 +1,31 @@
 
 import { Router } from "express";
 
-import { createUser } from "../controllers";
+import { createUser, loginUser } from "../controllers";
 
 import { check } from "express-validator";
 import { checkValidations } from "../validators/checkValidations";
 import { validateEmail } from "../validators/dbValidators";
 
-const userRoutes = Router();
+const authRoutes = Router();
 
-// get all users
-userRoutes.get('/', (req, res) => {
-    res.json({
-        res: 'get all users'
-    })
-});
-
-// get a single user
-userRoutes.get('/:user', (req, res) => {
-    res.json({
-        res: 'get a single user'
-    })
-});
+// login
+authRoutes.get(
+    '/login', 
+    [
+        check('user', 'The nickname/email is required').isString(),
+        check('password', 'The password is required').isString(),
+        checkValidations,
+    ],
+    loginUser,
+);
 
 // create user
-userRoutes.post('/', 
+authRoutes.post('/register', 
     [
         check('nickname', 'The nickname should be a string').isString(),
         check('nickname', 'The nickname length is incorrect (max: 25)').isLength({max: 25}),
+        check('nickname', 'the nickname must contain only alphanumeric characters, underscores and hyphens').matches(/^[a-zA-Z0-9_-]+$/),
         check('email', 'The email should be a valid email').isEmail(),
         check('email', 'The email length is incorrect (max: 100)').isLength({max: 100}),
         check('password', 'The password should be a string').isString(),
@@ -39,18 +37,17 @@ userRoutes.post('/',
 );
 
 // update user
-userRoutes.put('/', (req, res) => {
-
+authRoutes.put('/', (req, res) => {
     res.json({
         res: 'update user'
     })
 });
 
 // delete user
-userRoutes.delete('/', (req, res) => {
+authRoutes.delete('/', (req, res) => {
     res.json({
         res: 'delete user'
     })
 });
 
-export { userRoutes };
+export { authRoutes };
